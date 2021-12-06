@@ -5,6 +5,7 @@ const client = contentful.createClient({
 })
 // Declare variables
 const productsDOM = document.querySelector('.products-center');
+const prodModalOverlay = document.querySelector('#prod-modal-overlay');
 const purchaseBtn = document.querySelector('.purchase-btn');
 
 class Products {
@@ -37,7 +38,6 @@ class Products {
             // products.forEach(prod => {
             //     response.push(prod)
             // })
-            console.log(response)
             // return prods
             return products
         } catch (err) {
@@ -60,7 +60,7 @@ class Ui {
                 <h3>${product.title}</h3>
                 <h4>${product.price}</h4>
                 <div class='btns'>
-                 <button class='view-btn btn btn-light' data-id=${product.id}>View Item</button>
+                 <button class='view-btn btn btn-light' data-item-id=${product.id}>View Item</button>
 
                 <button 
                 class='bag-btn snipcart-add-item' 
@@ -78,6 +78,56 @@ class Ui {
         });
         productsDOM.innerHTML = result;
     }
+    viewProduct(products) {
+        let prodsRef = [];
+        products.forEach(prod => {
+            const prodObj = {
+                title: prod.title,
+                price: prod.price,
+                id: prod.id,
+                image: prod.image,
+                desc: prod.description
+            }
+            prodsRef.push(prodObj)
+        });
+        //
+        const allViewBtns = document.querySelectorAll('.view-btn');
+        allViewBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                let btnId = btn.dataset.itemId;
+                let convertBtnId = parseInt(btnId, 10);
+                let prodFromArr = prodsRef.find(prodObj => prodObj.id === convertBtnId);
+                console.log(prodFromArr)
+                // enable modal
+                prodModalOverlay.style.display = 'flex'
+                // create div
+                let prodModal = document.createElement('div');
+                prodModal.classList.add('prod-modal')
+                // assing div values
+                prodModal.innerHTML = `
+                    <div class='close-modal'>Close</div>
+                    <img src=${prodFromArr.image}></img>
+                    <h3>${prodFromArr.title}</h3>
+                    <p class='price'>$${prodFromArr.price}</p>
+                    <p class='desc'>${prodFromArr.desc}</p>
+                    <button class='modal-btn btn btn-primary' data-id=${convertBtnId}>Add to Cart</button>
+                `
+                //append
+                prodModalOverlay.appendChild(prodModal)
+                // modal btn logic
+                let currentModalBtn = document.querySelector('.modal-btn');
+                // modal btn clicked logic
+                currentModalBtn.addEventListener('click', (e) => {
+                    console.log(e)
+                })
+                // close modal
+                document.querySelector('.close-modal').addEventListener('click', () => {
+                    prodModalOverlay.style.display = 'none';
+                    prodModalOverlay.removeChild(prodModal);
+                })
+            })
+        })
+    }
 }
 // Document onload
 document.addEventListener('DOMContentLoaded', () => {
@@ -86,5 +136,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // Get all products from class
     products.fetchFromCms().then(products => {
         ui.displayProducts(products);
+        ui.viewProduct(products);
     })
 });
