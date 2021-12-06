@@ -34,9 +34,9 @@ class Products {
             // add products to json for snipcart validation
             const response = await fetch('/scripts/products.json')
                 .then((res) => res.json());
-            products.forEach(prod => {
-                response.push(prod)
-            })
+            // products.forEach(prod => {
+            //     response.push(prod)
+            // })
             console.log(response)
             // return prods
             return products
