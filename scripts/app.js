@@ -36,6 +36,7 @@ class Products {
             products.forEach(prod => {
                 response.push(prod)
             })
+            console.log(response)
             // return prods
             return products
         } catch (err) {
@@ -73,7 +74,6 @@ class Ui {
                 </div>
             </article>
             `;
-            console.log(product)
         });
         productsDOM.innerHTML = result;
     }
