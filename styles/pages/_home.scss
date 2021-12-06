@@ -196,6 +196,48 @@
         }
       }
 
+      .item-qty {
+        display: flex;
+        margin-bottom: $margin-md;
+        border: 1px solid #a4a4a4;
+        background-color: white;
+        max-width: 14rem;
+
+        label {}
+
+        input[type='number'] {
+          padding: $padding-sm;
+          font-size: 1.4rem;
+          font-weight: 500;
+          opacity: .85;
+          width: 3rem;
+          border: 0;
+          -webkit-appearance: none;
+          appearance: none;
+          text-align: center;
+          &::-webkit-outer-spin-button,
+          &::-webkit-inner-spin-button {
+              -webkit-appearance: none;
+              margin: 0;
+          }
+        }
+
+        .qty-btn {
+          font-size: 1.4rem;
+          width: 1rem;
+          border: 0;
+          padding: 0 $padding-md;
+          background-color: transparent;
+          cursor: pointer;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          &:hover {
+            background-color: $gray-100;
+          }
+        }
+      }
+
       .close-modal {
         position: absolute;
         top: 1rem;
@@ -385,3 +427,7 @@
 }
 
 /* --------------- End of Cart ---------------- */
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}

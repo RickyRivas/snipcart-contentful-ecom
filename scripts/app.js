@@ -61,7 +61,6 @@ class Ui {
                 <h4>${product.price}</h4>
                 <div class='btns'>
                  <button class='view-btn btn btn-light' data-item-id=${product.id}>View Item</button>
-
                 <button 
                 class='bag-btn snipcart-add-item' 
                 data-item-id="${product.id}" 
@@ -71,7 +70,6 @@ class Ui {
                 data-item-image="${product.image}"
                 data-item-name='${product.title}'
                 >Quick Add</button>
-
                 </div>
             </article>
             `;
@@ -97,7 +95,6 @@ class Ui {
                 let btnId = btn.dataset.itemId;
                 let convertBtnId = parseInt(btnId, 10);
                 let prodFromArr = prodsRef.find(prodObj => prodObj.id === convertBtnId);
-                console.log(prodFromArr)
                 // enable modal
                 prodModalOverlay.style.display = 'flex'
                 // create div
@@ -110,7 +107,23 @@ class Ui {
                     <h3>${prodFromArr.title}</h3>
                     <p class='price'>$${prodFromArr.price}</p>
                     <p class='desc'>${prodFromArr.desc}</p>
-                    <button class='modal-btn btn btn-primary' data-id=${convertBtnId}>Add to Cart</button>
+
+                    <div class='item-qty'>
+
+                    <button id='plus-qty' class='qty-btn'>+</button>
+                    <input type="number" min="1" value="1" class="qty-input">
+                    <button id='minus-qty' class='qty-btn'>-</button>
+
+                    </div>
+
+                    <button class='modal-btn btn btn-primary snipcart-add-item'
+                    data-item-id=${convertBtnId}
+                    data-item-price="${prodFromArr.price}"
+                    data-item-description="${prodFromArr.desc}"
+                    data-item-image="${prodFromArr.image}"
+                    data-item-name='${prodFromArr.title}'
+                    data-item-quantity=''
+                    >Add to Cart</button>
                 `
                 //append
                 prodModalOverlay.appendChild(prodModal)
@@ -118,15 +131,36 @@ class Ui {
                 let currentModalBtn = document.querySelector('.modal-btn');
                 // modal btn clicked logic
                 currentModalBtn.addEventListener('click', (e) => {
-                    console.log(e)
-                })
-                // close modal
-                document.querySelector('.close-modal').addEventListener('click', () => {
                     prodModalOverlay.style.display = 'none';
                     prodModalOverlay.removeChild(prodModal);
                 })
+                // declare
+                let itemQtyInput = document.querySelector('.qty-input');
+                const setAttr = (value) => {
+                    currentModalBtn.setAttribute('data-item-quantity', value)
+                }
+                // add / minus
+                let addQTy = document.querySelector('#plus-qty').addEventListener('click', () => {
+                    itemQtyInput.value++;
+                    let finalQtyInput = itemQtyInput.value;
+                    setAttr(finalQtyInput);
+                })
+                let minusQty = document.querySelector('#minus-qty').addEventListener('click', () => {
+                     itemQtyInput.value--;
+                    let finalQtyInput = itemQtyInput.value;
+                    setAttr(finalQtyInput);
+                })
             })
         })
+    }
+}
+class Storage {
+    static saveProducts() {
+        localStorage.setItem("products", JSON.stringify(products));
+    }
+    static getProduct(id) {
+        let products = JSON.parse(localStorage.getItem('products'));
+        return products.find(product => product.id === id)
     }
 }
 // Document onload
@@ -138,4 +172,30 @@ document.addEventListener('DOMContentLoaded', () => {
         ui.displayProducts(products);
         ui.viewProduct(products);
     })
+});
+let userCart = [];
+const saveCartLocally = (userCart) => {
+    userCart = []
+    localStorage.setItem("userCart", JSON.stringify(userCart))
+}
+// snipcart
+document.addEventListener('snipcart.ready', () => {
+    // added updated 
+    Snipcart.events.on('item.updated', () => {
+        // console.log(Snipcart.store.getState().cart.items)
+        const snipCartItems = Snipcart.store.getState().cart.items.items;
+        // only references the each main object not the count of total items
+        snipCartItems.forEach(cartItem => {
+            const newObj = {
+                title: cartItem.name,
+                id: cartItem.id,
+                desc: cartItem.description,
+                price: cartItem.price,
+                image: cartItem.image,
+                qty: cartItem.quantity
+            }
+            userCart.push(newObj)
+        })
+        saveCartLocally(userCart);
+    });
 });
