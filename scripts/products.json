@@ -1,2 +1,17 @@
 [
+  {
+    "id": "1",
+    "price": "59.99",
+    "url": "https://rwde2.netlify.app/index.html"
+  },
+  {
+    "id": "2",
+    "price": "25.99",
+    "url": "https://rwde2.netlify.app/index.html"
+  },
+  {
+    "id": "3",
+    "price": "59.99",
+    "url": "https://rwde2.netlify.app/index.html"
+  }
 ]

@@ -47,8 +47,8 @@ class Ui {
     displayProducts(products) {
         let result = '';
         const endpoint = 'https://rwde2.netlify.app'
-        const folder = 'index.html'
-        // const fileName = 'products.json'
+        const folder = 'scripts'
+        const fileName = 'products.json'
         products.forEach(product => {
             result += `
             <article class='product'>
@@ -64,7 +64,7 @@ class Ui {
                 class='bag-btn snipcart-add-item' 
                 data-item-id="${product.id}" 
                 data-item-price="${product.price}"
-                data-item-url="${endpoint}/${folder}"
+                data-item-url="${endpoint}/${folder}/${fileName}"
                 data-item-description="${product.description}"
                 data-item-image="${product.image}"
                 data-item-name='${product.title}'
