@@ -802,6 +802,7 @@ html {
     -webkit-box-align: center;
         -ms-flex-align: center;
             align-items: center;
+    color: black;
     -webkit-box-pack: center;
         -ms-flex-pack: center;
             justify-content: center;

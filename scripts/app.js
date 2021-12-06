@@ -146,9 +146,14 @@ class Ui {
                     setAttr(finalQtyInput);
                 })
                 let minusQty = document.querySelector('#minus-qty').addEventListener('click', () => {
-                     itemQtyInput.value--;
+                    itemQtyInput.value--;
                     let finalQtyInput = itemQtyInput.value;
                     setAttr(finalQtyInput);
+                })
+                // close modal
+                document.querySelector('.close-modal').addEventListener('click', () => {
+                    prodModalOverlay.style.display = 'none';
+                    prodModalOverlay.removeChild(prodModal);
                 })
             })
         })
