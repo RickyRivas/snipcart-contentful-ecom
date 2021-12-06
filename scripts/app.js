@@ -9,23 +9,20 @@ const purchaseBtn = document.querySelector('.purchase-btn');
 
 class Products {
     async fetchFromCms() {
-       try {
+        try {
             let contentful = await client.getEntries({
                 content_type: 'product'
             });
 
-           let products = contentful.items;
+            let products = contentful.items;
             products = products.map(item => {
                 const {
                     title,
                     price,
-                    description
-                } = item.fields;
-                const {
+                    description,
                     id
-                } = item.sys;
+                } = item.fields;
                 const image = 'https:' + item.fields.image[0].fields.file.url;
-
                 return {
                     title,
                     price,
@@ -34,6 +31,13 @@ class Products {
                     description
                 }
             })
+            // add products to json for snipcart validation
+            const response = await fetch('/scripts/products.json').then((res) => res.json());
+            products.forEach(prod => {
+                response.push(prod)
+            })
+            console.log(response)
+            // return prods
             return products
         } catch (err) {
             console.log(err)
@@ -43,9 +47,11 @@ class Products {
 class Ui {
     displayProducts(products) {
         let result = '';
+        const endpoint = 'https://rwde2.netlify.app/'
+        const page = 'index.html'
+        const fileName = 'products.json'
         products.forEach(product => {
             result += `
-                <!-- Single Product -->
             <article class='product'>
                 <div class='img-container'>
                     <img src='${product.image}'>
@@ -54,10 +60,19 @@ class Ui {
                 <h4>${product.price}</h4>
                 <div class='btns'>
                  <button class='view-btn btn btn-light' data-id=${product.id}>View Item</button>
-                <button class='bag-btn' data-id=${product.id}>Quick Add</button>
+
+                <button 
+                class='bag-btn snipcart-add-item' 
+                data-item-id="${product.id}" 
+                data-item-price="${product.price}"
+                data-item-url="${endpoint}/${page}/${fileName}"
+                data-item-description="${product.description}"
+                data-item-image="${product.image}"
+                data-item-name='${product.title}'
+                >Quick Add</button>
+
                 </div>
             </article>
-            <!-- Single Product-->
             `;
         });
         productsDOM.innerHTML = result;

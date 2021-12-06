@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Styles -->
+    <link rel="stylesheet" href="https://cdn.snipcart.com/themes/v3.3.0/default/snipcart.css" />
     <link href='styles/main.css' rel='stylesheet'>
     <title>Contentful, Snipcart, and vanilla js E-commerce Demo</title>
 </head>
@@ -60,7 +61,8 @@
     <section id='products'>
         <div class='heading'>
             <h2>Our Collection</h2>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolores commodi itaque veritatis iure cupiditate consectetur.</p>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolores commodi itaque veritatis iure cupiditate
+                consectetur.</p>
         </div>
         <div class='products-center'>
         </div>
@@ -69,6 +71,10 @@
     <div id="prod-modal-overlay"></div>
     <!-- Contentful -->
     <script src="https://cdn.jsdelivr.net/npm/contentful@latest/dist/contentful.browser.min.js"></script>
+    <!-- Snipcart-->
+    <script async src="https://cdn.snipcart.com/themes/v3.3.0/default/snipcart.js"></script>
+    <div hidden id="snipcart" data-api-key="NDdjZTI1MTktMjllZi00ZGMxLWEzZWItZTI3MTBiMDJhOTJjNjM3NzQzNTIwMzcwNzk1NTI2"
+        data-config-modal-style="side"></div>
     <script src="scripts/main.js"></script>
     <!-- Scripts -->
     <script src='scripts/app.js'></script>
