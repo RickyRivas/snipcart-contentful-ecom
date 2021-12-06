@@ -36,7 +36,6 @@ class Products {
             products.forEach(prod => {
                 response.push(prod)
             })
-            console.log(response)
             // return prods
             return products
         } catch (err) {
@@ -48,8 +47,8 @@ class Ui {
     displayProducts(products) {
         let result = '';
         const endpoint = 'https://rwde2.netlify.app'
-        const folder = 'scripts'
-        const fileName = 'products.json'
+        const folder = 'index.html'
+        // const fileName = 'products.json'
         products.forEach(product => {
             result += `
             <article class='product'>
@@ -65,7 +64,7 @@ class Ui {
                 class='bag-btn snipcart-add-item' 
                 data-item-id="${product.id}" 
                 data-item-price="${product.price}"
-                data-item-url="${endpoint}/${folder}/${fileName}"
+                data-item-url="${endpoint}/${folder}"
                 data-item-description="${product.description}"
                 data-item-image="${product.image}"
                 data-item-name='${product.title}'
@@ -74,6 +73,7 @@ class Ui {
                 </div>
             </article>
             `;
+            console.log(product)
         });
         productsDOM.innerHTML = result;
     }
