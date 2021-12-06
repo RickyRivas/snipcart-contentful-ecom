@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Styles -->
+    <link href='styles/main.css' rel='stylesheet'>
+    <title>Contentful, Snipcart, and vanilla js E-commerce Demo</title>
+</head>
+
+<body>
+    <!-- Nav Start -->
+    <!-- Navigation Start -->
+    <header>
+        <nav>
+            <div class='logo-box'>
+                <img src='images/RLOGO1-01.svg' class='logo' alt='esb logo'>
+            </div>
+            <div class='navlinks-overlay'></div>
+            <div class="wrap">
+                <ul class="nav-links">
+                    <li class="nav-link"><a href="index.html">Home</a></li>
+                    <li class="nav-link"><a href="services.html">Services</a></li>
+                    <li class="nav-link"><a href="gallery.html">Gallery</a></li>
+                    <li class="nav-link"><a href="products.html">Products</a></li>
+                    <li class="nav-link"><a href="about.html">About</a></li>
+                    <li class='social-media'>
+                        <a href='https://www.instagram.com/esb_barbershop/'><img src='images/instagramwhite.svg'
+                                alt="instagram link" class=""></a>
+                        <a href='https://www.facebook.com/eastsideblends'><img src='images/facebook-logo.svg'
+                                alt="facebook link" class=""></a>
+                    </li>
+                </ul>
+                <div class='cart-btn'>
+                    <span class='cart-icon'>
+                        <img src="images/shopping-cart.svg" alt="">
+                    </span>
+                    <div class='cart-items'>0</div>
+                </div>
+                <button class="hamburger" type="button" aria-label="Navigation Toggle" aria-controls="navigation">
+                    <span class="hamburger-inner">
+                    </span>
+                </button>
+            </div>
+        </nav>
+    </header>
+    <!-- Navigation End -->
+    <!-- Nav End  -->
+    <!-- Hero Start -->
+    <section id='hero'>
+        <div class='container'>
+            <h1 class='banner-title'>Rivas Demo Store</h1>
+            <p>E-commerce Demo coded with Snipcart, Contentful, and Vanilla Javascript.</p>
+            <button class='cta'>View Collections</button>
+        </div>
+    </section>
+    <!-- Hero End -->
+    <!-- Products Start -->
+    <section id='products'>
+        <div class='heading'>
+            <h2>Our Collection</h2>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolores commodi itaque veritatis iure cupiditate consectetur.</p>
+        </div>
+        <div class='products-center'>
+        </div>
+    </section>
+    <!-- Products End -->
+    <div id="prod-modal-overlay"></div>
+    <!-- Contentful -->
+    <script src="https://cdn.jsdelivr.net/npm/contentful@latest/dist/contentful.browser.min.js"></script>
+    <script src="scripts/main.js"></script>
+    <!-- Scripts -->
+    <script src='scripts/app.js'></script>
+</body>
+
+</html>
