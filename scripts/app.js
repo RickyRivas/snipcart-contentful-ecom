@@ -91,21 +91,12 @@ class Ui {
                 let btnId = btn.dataset.itemId;
                 let convertBtnId = parseInt(btnId, 10);
                 let prodFromArr = products.find(prodObj => prodObj.id === convertBtnId);
+                console.log(prodFromArr)
                 let prodImgsArr = [];
                 // console.log(prodFromArr)
                 function setImage(index) {
-                    return 'https://' + prodFromArr.images[index].fields.file.url
+                    return 'https:' + prodFromArr.images[index].fields.file.url
                 }
-
-                function setMainImg() {
-                    // let mainImg = setImage(0);
-                    prodImgsArr.forEach(img => {
-                        img.addEventListener('click', () => {
-                            console.log(img)
-                        })
-                    })
-                }
-                setMainImg();
                 // enable modal
                 prodModalOverlay.style.display = 'flex';
                 lockBody();
@@ -138,10 +129,10 @@ class Ui {
                     <button class='modal-btn btn btn-primary snipcart-add-item'
                     data-item-id=${convertBtnId}
                     data-item-price="${prodFromArr.price}"
-                    data-item-description="${prodFromArr.desc}"
-                    data-item-image="${prodFromArr.image}"
+                    data-item-description="${prodFromArr.description}"
+                    data-item-image="${setImage(0)}"
                     data-item-name='${prodFromArr.title}'
-                    data-item-quantity=''
+                    data-item-quantity='1'
                     >Add to Cart</button>
                 `
 
@@ -151,11 +142,10 @@ class Ui {
                         qtyInput.value = 1
                     }
                     currentModalBtn.setAttribute('data-item-quantity', qtyInput.value);
-                    console.log(qtyInput.value)
                 }
                 // append
                 prodModalOverlay.appendChild(prodModal)
-                // set imgs
+                // Imgs Grid Logic
                 const gridDomImgs = document.querySelectorAll('#arr-imgs img');
                 gridDomImgs.forEach(img => {
                     img.addEventListener('click', () => {
@@ -163,9 +153,9 @@ class Ui {
                         document.querySelector('#mainImg').src = imgSrc
                     })
                 })
-                // modal btn logic
+                // Purchase 
                 let currentModalBtn = document.querySelector('.modal-btn');
-                currentModalBtn.addEventListener('click', (e) => {
+                currentModalBtn.addEventListener('click', () => {
                     prodModalOverlay.style.display = 'none';
                     prodModalOverlay.removeChild(prodModal);
                     unlockBody();
@@ -198,15 +188,7 @@ class Ui {
         })
     }
 }
-class Storage {
-    static saveProducts() {
-        localStorage.setItem("products", JSON.stringify(products));
-    }
-    static getProduct(id) {
-        let products = JSON.parse(localStorage.getItem('products'));
-        return products.find(product => product.id === id)
-    }
-}
+
 // Document onload
 document.addEventListener('DOMContentLoaded', () => {
     const products = new Products();
@@ -222,24 +204,3 @@ const saveCartLocally = (userCart) => {
     userCart = []
     localStorage.setItem("userCart", JSON.stringify(userCart))
 }
-// snipcart
-document.addEventListener('snipcart.ready', () => {
-    // added updated 
-    Snipcart.events.on('item.updated', () => {
-        // console.log(Snipcart.store.getState().cart.items)
-        const snipCartItems = Snipcart.store.getState().cart.items.items;
-        // only references the each main object not the count of total items
-        snipCartItems.forEach(cartItem => {
-            const newObj = {
-                title: cartItem.name,
-                id: cartItem.id,
-                desc: cartItem.description,
-                price: cartItem.price,
-                image: cartItem.image,
-                qty: cartItem.quantity
-            }
-            userCart.push(newObj)
-        })
-        saveCartLocally(userCart);
-    });
-});

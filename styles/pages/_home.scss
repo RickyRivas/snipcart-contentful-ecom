@@ -252,6 +252,10 @@
         img {
           width: 100%;
           max-width: 250px;
+          cursor: pointer;
+          &:hover {
+            opacity: .9;
+          }
         }
       }
     }

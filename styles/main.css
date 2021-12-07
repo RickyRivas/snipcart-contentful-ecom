@@ -822,6 +822,10 @@ html {
   #prod-modal-overlay .prod-modal #arr-imgs img {
     width: 100%;
     max-width: 250px;
+    cursor: pointer;
+  }
+  #prod-modal-overlay .prod-modal #arr-imgs img:hover {
+    opacity: .9;
   }
   /* --------------- Cart ---------------- */
   .cart-overlay {
