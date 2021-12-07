@@ -148,6 +148,7 @@ class Ui {
                 currentModalBtn.addEventListener('click', (e) => {
                     prodModalOverlay.style.display = 'none';
                     prodModalOverlay.removeChild(prodModal);
+                    unlockBody();
                 })
                 // qty input logic
                 let qtyInput = document.querySelector('.qty-input');
