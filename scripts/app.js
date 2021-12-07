@@ -128,6 +128,9 @@ class Ui {
                     >Add to Cart</button>
                 `// set
                 const setQtyAttr = () => {
+                    if (qtyInput.value <= 1) {
+                      qtyInput.value = 1
+                    }
                     currentModalBtn.setAttribute('data-item-quantity', qtyInput.value);
                     console.log(qtyInput.value)
                 }
@@ -142,10 +145,7 @@ class Ui {
                 })
                 // qty input logic
                 let qtyInput = document.querySelector('.qty-input');
-                qtyInput.addEventListener('input', () => {
-                     if (qtyInput.value <= 1) {
-                      qtyInput.value = 1
-                    }
+                qtyInput.addEventListener('change', () => {
                     setQtyAttr()
                 })
                 let addQtyBtn = document.querySelector('#plus-qty');
