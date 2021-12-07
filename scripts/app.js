@@ -143,6 +143,9 @@ class Ui {
                 // qty input logic
                 let qtyInput = document.querySelector('.qty-input');
                 qtyInput.addEventListener('input', () => {
+                     if (qtyInput.value <= 1) {
+                      qtyInput.value = 1
+                    }
                     setQtyAttr()
                 })
                 let addQtyBtn = document.querySelector('#plus-qty');
