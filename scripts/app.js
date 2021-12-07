@@ -23,12 +23,13 @@ class Products {
                     description,
                     id
                 } = item.fields;
-                const image = 'https:' + item.fields.image[0].fields.file.url;
+                const images = item.fields.image;
+                // console.log(images)
                 return {
                     title,
                     price,
                     id,
-                    image,
+                    images,
                     description
                 }
             })
@@ -52,10 +53,11 @@ class Ui {
         const folder = 'scripts'
         const fileName = 'products.json'
         products.forEach(product => {
+            const prodFirstImg = 'https://' + product.images[0].fields.file.url
             result += `
             <article class='product'>
                 <div class='img-container'>
-                    <img src='${product.image}'>
+                    <img src='${prodFirstImg}'>
                 </div>
                 <h3>${product.title}</h3>
                 <h4>${product.price}</h4>
@@ -77,18 +79,6 @@ class Ui {
         productsDOM.innerHTML = result;
     }
     viewProduct(products) {
-        let prodsRef = [];
-        products.forEach(prod => {
-            const prodObj = {
-                title: prod.title,
-                price: prod.price,
-                id: prod.id,
-                image: prod.image,
-                desc: prod.description
-            }
-            prodsRef.push(prodObj)
-        });
-        //
         const lockBody = () => {
             document.querySelector('body').style.position = 'fixed';
         }
@@ -100,7 +90,22 @@ class Ui {
             btn.addEventListener('click', () => {
                 let btnId = btn.dataset.itemId;
                 let convertBtnId = parseInt(btnId, 10);
-                let prodFromArr = prodsRef.find(prodObj => prodObj.id === convertBtnId);
+                let prodFromArr = products.find(prodObj => prodObj.id === convertBtnId);
+                let prodImgsArr = [];
+                // console.log(prodFromArr)
+                function setImage(index) {
+                    return 'https://' + prodFromArr.images[index].fields.file.url
+                }
+
+                function setMainImg() {
+                    // let mainImg = setImage(0);
+                    prodImgsArr.forEach(img => {
+                        img.addEventListener('click', () => {
+                            console.log(img)
+                        })
+                    })
+                }
+                setMainImg();
                 // enable modal
                 prodModalOverlay.style.display = 'flex';
                 lockBody();
@@ -112,10 +117,15 @@ class Ui {
                 // assing div values
                 prodModal.innerHTML = `
                     <div class='close-modal'>Close</div>
-                    <img src=${prodFromArr.image}></img>
+                    <img id='mainImg' src=${setImage(0)}></img>
+                    <div id='arr-imgs'>
+                     <img class='arr-img' src=${setImage(0)}></img>
+                     <img class='arr-img' src=${setImage(1)}></img>
+                     <img class='arr-img' src=${setImage(2)}></img>
+                    </div>
                     <h3>${prodFromArr.title}</h3>
                     <p class='price'>$${prodFromArr.price}</p>
-                    <p class='desc'>${prodFromArr.desc}</p>
+                    <p class='desc'>${prodFromArr.description}</p>
 
                     <div class='item-qty'>
 
@@ -133,16 +143,26 @@ class Ui {
                     data-item-name='${prodFromArr.title}'
                     data-item-quantity=''
                     >Add to Cart</button>
-                `// set
+                `
+
+                // set
                 const setQtyAttr = () => {
                     if (qtyInput.value <= 1 || qtyInput.value == NaN) {
-                      qtyInput.value = 1
+                        qtyInput.value = 1
                     }
                     currentModalBtn.setAttribute('data-item-quantity', qtyInput.value);
                     console.log(qtyInput.value)
                 }
                 // append
                 prodModalOverlay.appendChild(prodModal)
+                // set imgs
+                const gridDomImgs = document.querySelectorAll('#arr-imgs img');
+                gridDomImgs.forEach(img => {
+                    img.addEventListener('click', () => {
+                        let imgSrc = img.src;
+                        document.querySelector('#mainImg').src = imgSrc
+                    })
+                })
                 // modal btn logic
                 let currentModalBtn = document.querySelector('.modal-btn');
                 currentModalBtn.addEventListener('click', (e) => {
@@ -164,7 +184,7 @@ class Ui {
                 remQtyBtn.addEventListener('click', () => {
                     qtyInput.value--
                     if (qtyInput.value <= 1) {
-                      qtyInput.value = 1
+                        qtyInput.value = 1
                     }
                     setQtyAttr()
                 })

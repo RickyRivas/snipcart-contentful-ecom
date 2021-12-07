@@ -811,6 +811,18 @@ html {
     top: 1rem;
     left: 1rem;
   }
+  #prod-modal-overlay .prod-modal #arr-imgs {
+    display: -ms-grid;
+    display: grid;
+    -ms-grid-columns: (1fr)[3];
+        grid-template-columns: repeat(3, 1fr);
+    width: 100%;
+    grid-gap: 1rem;
+  }
+  #prod-modal-overlay .prod-modal #arr-imgs img {
+    width: 100%;
+    max-width: 250px;
+  }
   /* --------------- Cart ---------------- */
   .cart-overlay {
     position: fixed;
