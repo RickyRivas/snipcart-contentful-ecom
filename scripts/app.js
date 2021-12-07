@@ -99,7 +99,9 @@ class Ui {
                 prodModalOverlay.style.display = 'flex'
                 // create div
                 let prodModal = document.createElement('div');
-                prodModal.classList.add('prod-modal')
+                prodModal.classList.add('prod-modal');
+                // qty input
+                let attrQtyValue;
                 // assing div values
                 prodModal.innerHTML = `
                     <div class='close-modal'>Close</div>
@@ -111,7 +113,7 @@ class Ui {
                     <div class='item-qty'>
 
                     <button id='plus-qty' class='qty-btn'>+</button>
-                    <input type="number" min="1" value="1" class="qty-input">
+                    <input type="number" value='1' min='1' max='99' value='1' class="qty-input">
                     <button id='minus-qty' class='qty-btn'>-</button>
 
                     </div>
@@ -124,7 +126,11 @@ class Ui {
                     data-item-name='${prodFromArr.title}'
                     data-item-quantity=''
                     >Add to Cart</button>
-                `
+                `// set
+                const setQtyAttr = () => {
+                    currentModalBtn.setAttribute('data-item-quantity', qtyInput.value);
+                    console.log(qtyInput.value)
+                }
                 //append
                 prodModalOverlay.appendChild(prodModal)
                 // modal btn logic
@@ -134,21 +140,23 @@ class Ui {
                     prodModalOverlay.style.display = 'none';
                     prodModalOverlay.removeChild(prodModal);
                 })
-                // declare
-                let itemQtyInput = document.querySelector('.qty-input');
-                const setAttr = (value) => {
-                    currentModalBtn.setAttribute('data-item-quantity', value)
-                }
-                // add / minus
-                let addQTy = document.querySelector('#plus-qty').addEventListener('click', () => {
-                    itemQtyInput.value++;
-                    let finalQtyInput = itemQtyInput.value;
-                    setAttr(finalQtyInput);
+                // qty input logic
+                let qtyInput = document.querySelector('.qty-input');
+                qtyInput.addEventListener('input', () => {
+                    setQtyAttr()
                 })
-                let minusQty = document.querySelector('#minus-qty').addEventListener('click', () => {
-                    itemQtyInput.value--;
-                    let finalQtyInput = itemQtyInput.value;
-                    setAttr(finalQtyInput);
+                let addQtyBtn = document.querySelector('#plus-qty');
+                addQtyBtn.addEventListener('click', () => {
+                    qtyInput.value++
+                    setQtyAttr()
+                })
+                let remQtyBtn = document.querySelector('#minus-qty');
+                remQtyBtn.addEventListener('click', () => {
+                    qtyInput.value--
+                    if (qtyInput.value <= 1) {
+                      qtyInput.value = 1
+                    }
+                    setQtyAttr()
                 })
                 // close modal
                 document.querySelector('.close-modal').addEventListener('click', () => {

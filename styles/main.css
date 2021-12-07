@@ -785,10 +785,6 @@ html {
          appearance: none;
     text-align: center;
   }
-  #prod-modal-overlay .prod-modal .item-qty input[type='number']::-webkit-outer-spin-button, #prod-modal-overlay .prod-modal .item-qty input[type='number']::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-  }
   #prod-modal-overlay .prod-modal .item-qty .qty-btn {
     font-size: 1.4rem;
     width: 1rem;
