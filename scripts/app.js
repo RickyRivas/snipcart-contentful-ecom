@@ -89,6 +89,12 @@ class Ui {
             prodsRef.push(prodObj)
         });
         //
+        const lockBody = () => {
+            document.querySelector('body').style.position = 'fixed';
+        }
+        const unlockBody = () => {
+            document.querySelector('body').style.position = 'unset';
+        }
         const allViewBtns = document.querySelectorAll('.view-btn');
         allViewBtns.forEach(btn => {
             btn.addEventListener('click', () => {
@@ -96,7 +102,8 @@ class Ui {
                 let convertBtnId = parseInt(btnId, 10);
                 let prodFromArr = prodsRef.find(prodObj => prodObj.id === convertBtnId);
                 // enable modal
-                prodModalOverlay.style.display = 'flex'
+                prodModalOverlay.style.display = 'flex';
+                lockBody();
                 // create div
                 let prodModal = document.createElement('div');
                 prodModal.classList.add('prod-modal');
@@ -128,17 +135,16 @@ class Ui {
                     >Add to Cart</button>
                 `// set
                 const setQtyAttr = () => {
-                    if (qtyInput.value <= 1) {
+                    if (qtyInput.value <= 1 || qtyInput.value == NaN) {
                       qtyInput.value = 1
                     }
                     currentModalBtn.setAttribute('data-item-quantity', qtyInput.value);
                     console.log(qtyInput.value)
                 }
-                //append
+                // append
                 prodModalOverlay.appendChild(prodModal)
                 // modal btn logic
                 let currentModalBtn = document.querySelector('.modal-btn');
-                // modal btn clicked logic
                 currentModalBtn.addEventListener('click', (e) => {
                     prodModalOverlay.style.display = 'none';
                     prodModalOverlay.removeChild(prodModal);
@@ -165,6 +171,7 @@ class Ui {
                 document.querySelector('.close-modal').addEventListener('click', () => {
                     prodModalOverlay.style.display = 'none';
                     prodModalOverlay.removeChild(prodModal);
+                    unlockBody();
                 })
             })
         })
